@@ -54,11 +54,11 @@ public class ElevensBoard extends Board {
 	@Override
 	public boolean isLegal(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		if(selectedCards.size() == 3) {
+		if(selectedCards.size() == 2) {
 			return containsPairSum11(selectedCards);
 		}
 		
-		if(selectedCards.size() == 2) {
+		if(selectedCards.size() == 3) {
 			return containsJQK(selectedCards);
 		}
 		
@@ -116,6 +116,24 @@ public class ElevensBoard extends Board {
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		int cardVal1 = super.cardAt(selectedCards.get(0)).pointValue();
+		int cardVal2 = super.cardAt(selectedCards.get(1)).pointValue();
+		if(cardVal1 + cardVal2 == 11) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check for a JQK in the selected cards.
+	 * @param selectedCards selects a subset of this board.  It is list
+	 *                      of indexes into this board that are searched
+	 *                      to find a JQK group.
+	 * @return true if the board entries in selectedCards
+	 *              include a jack, a queen, and a king; false otherwise.
+	 */
+	private boolean containsJQK(List<Integer> selectedCards) {
+		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
 		boolean hasJack = false;
 		boolean hasQueen = false;
 		boolean hasKing = false;
@@ -135,24 +153,6 @@ public class ElevensBoard extends Board {
 			return true;
 		}
 		
-		return false;
-	}
-
-	/**
-	 * Check for a JQK in the selected cards.
-	 * @param selectedCards selects a subset of this board.  It is list
-	 *                      of indexes into this board that are searched
-	 *                      to find a JQK group.
-	 * @return true if the board entries in selectedCards
-	 *              include a jack, a queen, and a king; false otherwise.
-	 */
-	private boolean containsJQK(List<Integer> selectedCards) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		int cardVal1 = super.cardAt(selectedCards.get(0)).pointValue();
-		int cardVal2 = super.cardAt(selectedCards.get(1)).pointValue();
-		if(cardVal1 + cardVal2 == 11) {
-			return true;
-		}
 		return false;
 	}
 }
