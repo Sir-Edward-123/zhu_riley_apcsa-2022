@@ -188,6 +188,14 @@ public class PictureTester {
 		System.out.println(hall.getAverageForColumn(value));
 	}
 	
+	public static void testSteganography() {
+		Picture beach = new Picture("src/images/beach.jpg");
+		Picture msg = new Picture("src/images/msg.jpg");
+		beach.encode(msg);
+		beach.explore();
+		beach.decode().explore();
+	}
+	
 	/**
 	 * Main method for testing. Every class can have a main method in Java
 	 */
@@ -225,5 +233,7 @@ public class PictureTester {
 		// testSetRedToHalfValueInTopHalf();
 		// testClearBlueOverValue(200);
 		// testGetAverageForColumn(0);
+		
+		testSteganography();
 	}
 }

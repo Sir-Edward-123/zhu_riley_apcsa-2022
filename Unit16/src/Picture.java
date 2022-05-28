@@ -482,6 +482,88 @@ public class Picture extends SimplePicture {
 		}
 		return (double) totalRGB / (pixels.length * 3);
 	}
+	
+	public void encode(Picture message) {
+		Pixel[][] pixels = this.getPixels2D();
+		Pixel[][] messagePixels = message.getPixels2D();
+		Pixel currPix;
+		for(int row = 0; row < pixels.length; row++) {
+			for(int col = 0; col < pixels.length; col++) {
+				currPix = pixels[row][col];
+				if(row < messagePixels.length && col < messagePixels[0].length) {
+					if(countOnes(Integer.toBinaryString(currPix.getRed()))%2 == 1) {
+						if(currPix.getRed()%2 == 1) {
+							currPix.setRed(currPix.getRed() - 1);
+						} else {
+							currPix.setRed(currPix.getRed() + 1);
+						}
+					}
+					if(countOnes(Integer.toBinaryString(currPix.getGreen()))%2 == 1 && messagePixels[row][col].colorDistance(Color.white) < 50) {
+						if(currPix.getGreen()%2 == 1) {
+							currPix.setGreen(currPix.getGreen() - 1);
+						} else {
+							currPix.setGreen(currPix.getGreen() + 1);
+						}
+					} else if(countOnes(Integer.toBinaryString(currPix.getGreen()))%2 == 0 && messagePixels[row][col].colorDistance(Color.black) < 50) {
+						if(currPix.getGreen()%2 == 1) {
+							currPix.setGreen(currPix.getGreen() - 1);
+						} else {
+							currPix.setGreen(currPix.getGreen() + 1);
+						}
+					}
+				} else {
+					if(countOnes(Integer.toBinaryString(currPix.getRed()))%2 == 0) {
+						if(currPix.getRed()%2 == 1) {
+							currPix.setRed(currPix.getRed() - 1);
+						} else {
+							currPix.setRed(currPix.getRed() + 1);
+						}
+					}
+				}	
+			}
+		}
+		
+	}
+	
+	public Picture decode() {
+		Pixel[][] pixels = this.getPixels2D();
+		int numRow;
+		int numCol;
+		for(numRow = 0; numRow < pixels.length; numRow++) {
+			if(countOnes(Integer.toBinaryString(pixels[numRow][0].getRed()))%2 == 1) {
+				break;
+			}
+		}
+		for(numCol = 0; numCol < pixels.length; numCol++) {
+			if(countOnes(Integer.toBinaryString(pixels[0][numCol].getRed()))%2 == 1) {
+				break;
+			}
+		}
+		
+		Picture decodePicture = new Picture(numRow, numCol);
+		Pixel[][] decodePixels = decodePicture.getPixels2D();
+		for(int row = 0; row < decodePixels.length; row++) {
+			for(int col = 0; col < decodePixels.length; col++) {
+				if(countOnes(Integer.toBinaryString(pixels[row][col].getGreen()))%2 == 1) {
+					decodePixels[row][col].setColor(Color.black);
+				} else {
+					decodePixels[row][col].setColor(Color.white);
+				}
+			}
+		}
+		
+		return decodePicture;
+	}
+	
+	public int countOnes(String binaryString) {
+		int oneCount = 0;
+		for(int i = 0; i < binaryString.length(); i++) {
+			if(binaryString.charAt(i) == '1') {
+				oneCount++;
+			}
+		}
+		return oneCount;
+	}
 
 	/*
 	 * Main method for testing - each class in Java can have a main method
