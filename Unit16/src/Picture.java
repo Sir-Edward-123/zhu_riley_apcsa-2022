@@ -488,7 +488,7 @@ public class Picture extends SimplePicture {
 		Pixel[][] messagePixels = message.getPixels2D();
 		Pixel currPix;
 		for(int row = 0; row < pixels.length; row++) {
-			for(int col = 0; col < pixels.length; col++) {
+			for(int col = 0; col < pixels[0].length; col++) {
 				currPix = pixels[row][col];
 				if(row < messagePixels.length && col < messagePixels[0].length) {
 					if(countOnes(Integer.toBinaryString(currPix.getRed()))%2 == 1) {
@@ -534,7 +534,7 @@ public class Picture extends SimplePicture {
 				break;
 			}
 		}
-		for(numCol = 0; numCol < pixels.length; numCol++) {
+		for(numCol = 0; numCol < pixels[0].length; numCol++) {
 			if(countOnes(Integer.toBinaryString(pixels[0][numCol].getRed()))%2 == 1) {
 				break;
 			}
@@ -543,7 +543,7 @@ public class Picture extends SimplePicture {
 		Picture decodePicture = new Picture(numRow, numCol);
 		Pixel[][] decodePixels = decodePicture.getPixels2D();
 		for(int row = 0; row < decodePixels.length; row++) {
-			for(int col = 0; col < decodePixels.length; col++) {
+			for(int col = 0; col < decodePixels[0].length; col++) {
 				if(countOnes(Integer.toBinaryString(pixels[row][col].getGreen()))%2 == 1) {
 					decodePixels[row][col].setColor(Color.black);
 				} else {
